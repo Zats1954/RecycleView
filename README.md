@@ -1,0 +1,1 @@
+Пример RecycleView для UrbanUni
