@@ -5,4 +5,5 @@
     <dimen name="margin">5dp</dimen>
     <dimen name="width_image">200dp</dimen>
     <dimen name="text_title">15sp</dimen>
+    <dimen name="image_margin">20dp</dimen>
 </resources>

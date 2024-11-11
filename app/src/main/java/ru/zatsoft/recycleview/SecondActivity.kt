@@ -1,18 +1,17 @@
 package ru.zatsoft.recycleview
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ru.zatsoft.recycleview.databinding.ActivitySecondBinding
 
 class SecondActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySecondBinding
     private lateinit var clothing: List<Clothes>
-    private lateinit var recycleView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +43,20 @@ class SecondActivity : AppCompatActivity() {
             Clothes("Ветровка CHRLCK",R.drawable.chrlck, "Дышащая ветрозащитная ветровка CHRLCK унисекс кемпинг охота бег треккинговая куртка для рыбалки"),
             Clothes("Пальто  Mauroicardi",R.drawable.mauroicardi, "Пальто Mauroicardi Длинное Теплое Однобортное Шерстяное пальто с напуском"),
             )
-        binding.rvList.layoutManager = LinearLayoutManager(this)
-        binding.rvList.adapter = CustomAdapter(clothing as MutableList<Clothes>)
-
+        val adapter = CustomAdapter(clothing as MutableList<Clothes>)
+        binding.rvList.adapter = adapter
+        binding.rvList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rvList.addItemDecoration( MyItemDecoration(this,R.drawable.divider))
+        binding.rvList.setHasFixedSize(true)
+        adapter.setOnClothesClickListener(
+            object: CustomAdapter.OnClothClickListener{
+                override fun onClothClick(cloth:Clothes, position:Int){
+                  val intent = Intent(this@SecondActivity, ItemActivity::class.java)
+                   intent.putExtra("cloth", cloth)
+                    startActivity(intent)
+                }
+            }
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
