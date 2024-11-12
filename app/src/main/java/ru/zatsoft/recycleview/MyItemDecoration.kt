@@ -14,7 +14,7 @@ class MyItemDecoration(context: Context, resId: Int) : RecyclerView.ItemDecorati
         super.onDraw(c, parent, state)
 
         // left margin for the divider
-        val dividerLeft: Int = 32
+        val dividerLeft = 32
 
         // right margin for the divider with
         // reference to the parent width

@@ -1,26 +1,30 @@
 package ru.zatsoft.recycleview
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.appcompat.widget.Toolbar
 import ru.zatsoft.recycleview.databinding.ActivityItemBinding
-import ru.zatsoft.recycleview.databinding.ActivitySecondBinding
+
 
 class ItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityItemBinding
+    private lateinit var toolBar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbarMain)
+        toolBar = binding.toolbarMain
+        setSupportActionBar(toolBar)
+        title = " "
         supportActionBar?.setTitle(" ")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbarMain.setNavigationOnClickListener {
@@ -53,11 +57,26 @@ class ItemActivity : AppCompatActivity() {
                     binding.itemTitle.text = editName.text.toString()
                     binding.itemDescription.text = editDescription.text.toString()
                     val newCloth = Clothes(editName.text.toString(),cloth!!.image,editDescription.text.toString())
+                    val intent1 = Intent()
+                    intent1.putExtra("newCloth", newCloth)
+                    setResult(Activity.RESULT_OK, intent1)
+                    finish()
                 }
                 dialog.setNegativeButton("Отмена"){_,_ ->
                 }
                 dialog.create().show()
                 false
             }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.exit)
+            finishAffinity()
+        return super.onOptionsItemSelected(item)
     }
 }
